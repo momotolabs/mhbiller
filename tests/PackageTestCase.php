@@ -10,7 +10,7 @@ class PackageTestCase extends TestCase
     protected function getPackageProvider($app): array
     {
         return [
-            PackageServiceProvider::class
+            PackageServiceProvider::class,
         ];
     }
 }
