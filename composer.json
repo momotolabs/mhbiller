@@ -1,0 +1,45 @@
+{
+  "name": "momotolabs/mhbiller",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Momotolabs\\Mhbiller\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Momotolabs\\MhBiller\\Tests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "José Chavarría",
+      "email": "jchavarria@momotolabs.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require-dev": {
+    "orchestra/testbench": "dev-develop",
+    "pestphp/pest": "^2.30"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "\\Momotolabs\\MhBiller\\Providers\\PackageServiceProvider"
+      ],
+      "aliases": {
+        "MhBiller": "Momotolabs\\MhBiller\\MhBiller"
+      }
+    }
+  },
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true,
+    "preferred-install": "dist",
+    "optimize-autoloader": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
+}
