@@ -1,6 +1,6 @@
 <?php
 
-namespace Momotolabs\Mhbiller\Concerns;
+namespace Momotolabs\Mhbiller\Data\Concerns;
 
 enum DTESchemas: string
 {

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Arr;
-use Momotolabs\Mhbiller\Concerns\DTESchemas;
+use Momotolabs\Mhbiller\Data\Concerns\DTESchemas;
 use Momotolabs\Mhbiller\Helpers;
 
 test('get file ok', function () {
