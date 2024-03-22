@@ -7,7 +7,11 @@ use Momotolabs\Mhbiller\Exceptions\NotFoundFileException;
 
 class Helpers
 {
-    public static function getFile(string $type): ?string
+    public function __construct(private readonly string $type)
+    {
+    }
+
+    public function getFilePath(): ?string
     {
         try {
             $fileName = [
@@ -24,7 +28,7 @@ class Helpers
                 'NRE' => 'fe-nr-v3.json',
                 'CANCEL' => 'anulacion-schema-v2.json',
                 'CONTINGENCY' => 'contingencia-schema-v3.json',
-            ][$type];
+            ][$this->type];
 
             $path = __DIR__.'/resources/schemas/'.$fileName;
             if (!file_exists($path)) {
@@ -34,9 +38,14 @@ class Helpers
             return $path;
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-
             return null;
         }
 
     }
+
+    public function getFile()
+    {
+        return file_get_contents($this->getFilePath());
+    }
+
 }

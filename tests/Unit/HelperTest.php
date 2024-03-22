@@ -4,14 +4,18 @@ use Illuminate\Support\Arr;
 use Momotolabs\Mhbiller\Data\Concerns\DTESchemas;
 use Momotolabs\Mhbiller\Helpers;
 
-test('get file ok', function () {
+test('get file path ok', function () {
     $type = Arr::random(DTESchemas::cases())->value;
-    $testPath = Helpers::getFile($type);
+    $testPath = Helpers::getFilePath($type);
     expect($testPath)->not->toBeNull()->toBeString();
 });
 
-test('get file fail', function () {
+test('get file path fail', function () {
     $type = \Illuminate\Support\Str::random();
-    $testPath = Helpers::getFile($type);
+    $testPath = Helpers::getFilePath($type);
     expect($testPath)->toBeNull();
 });
+
+
+
+

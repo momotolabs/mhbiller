@@ -1,30 +1,43 @@
 <?php
 
-namespace Momotolabs\Mhbiller\Data;
+namespace Momotolabs\Mhbiller;
 
 class Bill
 {
     public function generate()
     {
-        $this->getIdentification();
-        $this->getEmitter();
-        $this->setReceiver();
-        $this->setBodyBill();
-        $this->generateResume();
 
-        $documentationRelated = [];
-        $otherDocs = [];
-        $thirdSale = [];
+
+
+        $documentationRelated = null;
+        $otherDocs = null;
+        $thirdSale = null;
+        $extension = null;
+        $append = null;
+
+        return  json_encode([
+        "identificacion"=> $this->getIdentification(),
+        "documentoRelacionado"=>$documentationRelated,
+        "emisor"=> $this->getEmitter(),
+        "receptor"=>$this->setReceiver(),
+        "otrosDocumentos"=>$otherDocs,
+        "ventaTercero"=>$thirdSale,
+        "cuerpoDocumento"=>$this->setBodyBill(),
+        "resumen"=>$this->generateResume(),
+        "extension"=>$extension,
+        "apendice"=>$append
+    ]);
+
 
 
     }
 
     /**
-     * @return void
+     * @return array
      */
-    public function getIdentification(): void
+    public function getIdentification(): array
     {
-        $identification = [
+        return  [
             "version" => 1,
             "ambiente" => "00",
             "tipoDte" => "01",
@@ -41,11 +54,11 @@ class Bill
     }
 
     /**
-     * @return void
+     * @return array
      */
-    public function getEmitter(): void
+    public function getEmitter(): array
     {
-        $emiter = [
+       return [
             "nit" => "06142507221034",
             "nrc" => "3176570",
             "nombre" => "MOMOTOLABS, SOCIEDAD ANONIMA DE CAPITAL VARIABLE",
@@ -68,11 +81,11 @@ class Bill
     }
 
     /**
-     * @return void
+     * @return array
      */
-    public function setReceiver(): void
+    public function setReceiver(): array
     {
-        $reciver = [
+         return [
             "tipoDocumento" => "36",
             "numDocumento" => "06140603071024",
             "nrc" => null,
@@ -90,11 +103,11 @@ class Bill
     }
 
     /**
-     * @return void
+     * @return array
      */
-    public function setBodyBill(): void
+    public function setBodyBill(): array
     {
-        $documentBody = [
+        return [[
             "numItem" => 1,
             "tipoItem" => 1,
             "numeroDocumento" => null,
@@ -102,7 +115,7 @@ class Bill
             "codigo" => "020101004",
             "codTributo" => null,
             "uniMedida" => 99,
-            "descripcion" => "ContaPortable Avanzado 15 empresas",
+            "descripcion" => "desarrollo de web",
             "precioUni" => 175.00310000,
             "montoDescu" => 0,
             "ventaNoSuj" => 0,
@@ -112,37 +125,45 @@ class Bill
             "psv" => 0,
             "noGravado" => 0,
             "ivaItem" => 40.26620000
-        ];
+        ]];
     }
 
     /**
-     * @return void
+     * @return array
      */
-    public function generateResume(): void
+    public function generateResume(): array
     {
-        $resume = [
-            "totalNoSuj" => 0,
-            "totalExenta" => 0,
-            "totalGravada" => 350.01,
-            "subTotalVentas" => 350.01,
-            "descuNoSuj" => 0,
-            "descuExenta" => 0,
-            "descuGravada" => 0,
-            "porcentajeDescuento" => 0,
-            "totalDescu" => 0,
-            "tributos" => null,
-            "subTotal" => 350.01,
-            "ivaRete1" => 0,
-            "reteRenta" => 0,
-            "montoTotalOperacion" => 350.01,
-            "totalNoGravado" => 0,
-            "totalPagar" => 350.01,
-            "totalLetras" => "TRESCIENTOS CINCUENTA DOLARES CON 01/100 CENTAVOS.",
-            "totalIva" => 40.27,
-            "saldoFavor" => 0,
-            "condicionOperacion" => 1,
-            "pagos" => null,
-            "numPagoElectronico" => null
+        return [
+            "totalNoSuj"=> 0.0,
+    "totalExenta"=> 0.0,
+    "totalGravada"=> 104.22,
+    "subTotalVentas"=> 104.22,
+    "descuNoSuj"=> 0.0,
+    "descuExenta"=> 0.0,
+    "descuGravada"=> 0.0,
+    "porcentajeDescuento"=> 0.0,
+    "totalDescu"=> 28.47,
+    "tributos"=> null,
+    "subTotal"=> 104.22,
+    "ivaRete1"=> 0.0,
+    "reteRenta"=> 0.0,
+    "montoTotalOperacion"=> 104.22,
+    "totalNoGravado"=> 0.0,
+    "totalPagar"=> 104.22,
+    "totalLetras"=> "CIENTO CUATRO CON 22/100 DOLARES",
+    "totalIva"=> 11.99,
+    "saldoFavor"=> 0.0,
+    "condicionOperacion"=> 1,
+    "pagos"=> [
+      [
+          "codigo"=> "03",
+        "montoPago"=> 104.22,
+        "referencia"=> "4034170195",
+        "plazo"=> "01",
+        "periodo"=> null
+      ]
+    ],
+    "numPagoElectronico"=> null
         ];
     }
 

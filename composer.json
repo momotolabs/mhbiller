@@ -21,7 +21,7 @@
   "minimum-stability": "dev",
   "require-dev": {
     "laravel/pint": "^1.13",
-    "orchestra/testbench": "dev-develop",
+    "orchestra/testbench": "v8.21.1",
     "pestphp/pest": "^2.30",
     "phpstan/phpstan": "^1.10"
   },
@@ -43,5 +43,11 @@
     "allow-plugins": {
       "pestphp/pest-plugin": true
     }
+  },
+  "require": {
+    "ergebnis/json-schema-validator": "^4.2",
+    "justinrainbow/json-schema": "^5.2",
+    "opis/json-schema": "^2.3",
+    "swaggest/json-schema": "^0.12.42"
   }
 }
