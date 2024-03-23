@@ -20,7 +20,7 @@ class Helpers
                 'CLE' => 'fe-cl-v1.json',
                 'CRE' => 'fe-cr-v1.json',
                 'DCLE' => 'fe-dcl-v1.json',
-                'FE' => 'fe-fc-v1.json',
+                'DocumentBase' => 'fe-fc-v1.json',
                 'FEXE' => 'fe-fex-v1.json',
                 'FSEE' => 'fe-fse-v1.json',
                 'NCE' => 'fe-nc-v3.json',

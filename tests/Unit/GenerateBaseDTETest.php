@@ -4,8 +4,8 @@ use Illuminate\Support\Arr;
 use Momotolabs\Mhbiller\Data\Concerns\DTESchemas;
 use Momotolabs\Mhbiller\Helpers;
 
-test('create schema type FE', function () {
-    $dte = new \Momotolabs\Mhbiller\Bill();
+test('create schema type DocumentBase', function () {
+    $dte = new \Momotolabs\Mhbiller\Bill(DTESchemas::FE->value);
     $testJson = $dte->generate();
     expect($testJson)->not->toBeNull()->toBeJson();
     expect($testJson)->json()

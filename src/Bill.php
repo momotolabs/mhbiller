@@ -2,21 +2,24 @@
 
 namespace Momotolabs\Mhbiller;
 
-class Bill
+use Momotolabs\Mhbiller\Data\Concerns\DTESchemas;
+use Momotolabs\Mhbiller\DTE\DocumentBase;
+
+class Bill extends DocumentBase
 {
     public function generate()
     {
-
-
-
         $documentationRelated = null;
         $otherDocs = null;
         $thirdSale = null;
         $extension = null;
         $append = null;
-
+        $baseData =[
+            'typeModel'=>1,
+            'typeOperation'=>1
+        ];
         return  json_encode([
-        "identificacion"=> $this->getIdentification(),
+        "identificacion"=> parent::getIdentification($baseData),
         "documentoRelacionado"=>$documentationRelated,
         "emisor"=> $this->getEmitter(),
         "receptor"=>$this->setReceiver(),
@@ -32,26 +35,6 @@ class Bill
 
     }
 
-    /**
-     * @return array
-     */
-    public function getIdentification(): array
-    {
-        return  [
-            "version" => 1,
-            "ambiente" => "00",
-            "tipoDte" => "01",
-            "numeroControl" => "DTE-01-00000000-000000000000226",
-            "codigoGeneracion" => "905973D8-7786-448B-852E-597D5734D126",
-            "tipoModelo" => 1,
-            "tipoOperacion" => 1,
-            "tipoContingencia" => null,
-            "motivoContin" => null,
-            "fecEmi" => "2023-11-10",
-            "horEmi" => "20:02:15",
-            "tipoMoneda" => "USD"
-        ];
-    }
 
     /**
      * @return array

@@ -21,7 +21,7 @@
   "minimum-stability": "dev",
   "require-dev": {
     "laravel/pint": "^1.13",
-    "orchestra/testbench": "v8.21.1",
+    "orchestra/testbench": "v8.22.1",
     "pestphp/pest": "^2.30",
     "phpstan/phpstan": "^1.10"
   },

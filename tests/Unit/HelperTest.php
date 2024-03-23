@@ -6,13 +6,13 @@ use Momotolabs\Mhbiller\Helpers;
 
 test('get file path ok', function () {
     $type = Arr::random(DTESchemas::cases())->value;
-    $testPath = Helpers::getFilePath($type);
+    $testPath = (new Helpers($type))->getFilePath();
     expect($testPath)->not->toBeNull()->toBeString();
 });
 
 test('get file path fail', function () {
     $type = \Illuminate\Support\Str::random();
-    $testPath = Helpers::getFilePath($type);
+    $testPath = (new Helpers($type))->getFilePath();
     expect($testPath)->toBeNull();
 });
 
