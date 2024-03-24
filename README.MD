@@ -1,1 +1,22 @@
 # Manager for electronic BIll in el Salvador
+
+
+# config
+you may add these variables to your .env file
+```dotenv
+MHBILL_NIT=''
+MHBILL_NRC=''
+MHBILL_NAME=''
+MHBILL_COD_ACTIVITY=''
+MHBILL_DESC_ACTIVITY=''
+MHBILL_COMMERCIAL_NAME=''
+MHBILL_TYPE_ESTABLISHMENT=''
+MHBILL_DIR_STATE=''
+MHBILL_DIR_CITY=''
+MHBILL_DIR_COMPLEMENT=''
+MHBILL_MH_COD_STA=''
+MHBILL_COD_STA=''
+MHBILL_MH_COD_POS=''
+MHBILL_COD_POS=''
+MHBILL_EMAIL=''
+```

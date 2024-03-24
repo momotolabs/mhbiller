@@ -1,0 +1,23 @@
+<?php
+return[
+    'emitter'=>[
+        'nit'=>env('MHBILL_NIT','yiuyeyreyiruyeiur'),
+        'nrc'=>env('MHBILL_NRC',''),
+        'name'=>env('MHBILL_NAME',''),
+        'cod_activity'=>env('MHBILL_COD_ACTIVITY',''),
+        'des_activity'=>env('MHBILL_DESC_ACTIVITY',''),
+        'commercial'=>env('MHBILL_COMMERCIAL_NAME',''),
+        'type_establishment'=>env('MHBILL_TYPE_ESTABLISHMENT',''),
+        'direction'=>[
+            'state'=>env('MHBILL_DIR_STATE',''),
+            'city'=>env('MHBILL_DIR_CITY',''),
+            'complement'=>env('MHBILL_DIR_COMPLEMENT',''),
+        ],
+        'phone'=>env('MHBILL_PHONE',null),
+        'cod_mh_stablishment'=>env('MHBILL_MH_COD_STA',null),
+        'cod_stablishment'=>env('MHBILL_COD_STA','0000'),
+        'cod_mh_pos'=>env('MHBILL_MH_COD_POS',null),
+        'cod_pos'=>env('MHBILL_COD_POS','0000'),
+        'email'=>env('MHBILL_EMAIL',''),
+    ]
+];

@@ -48,6 +48,7 @@
     "ergebnis/json-schema-validator": "^4.2",
     "justinrainbow/json-schema": "^5.2",
     "opis/json-schema": "^2.3",
-    "swaggest/json-schema": "^0.12.42"
+    "swaggest/json-schema": "^0.12.42",
+    "vlucas/phpdotenv": "^5.6"
   }
 }

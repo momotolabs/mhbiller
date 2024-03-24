@@ -15,4 +15,21 @@
             <directory suffix=".php">./src</directory>
         </include>
     </source>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name='MHBILL_NIT' value='06142507221034' />
+        <env name='MHBILL_NRC' value='3176570' />
+        <env name='MHBILL_NAME' value='MOMOTOLABS, SOCIEDAD ANONIMA DE CAPITAL VARIABLE'/>
+        <env name='MHBILL_COD_ACTIVITY' value='62010'/>
+        <env name='MHBILL_DESC_ACTIVITY' value='Programacion informatica'/>
+        <env name='MHBILL_COMMERCIAL_NAME' value='Momotolabs'/>
+        <env name='MHBILL_TYPE_ESTABLISHMENT' value='02'/>
+        <env name='MHBILL_DIR_STATE' value='06'/>
+        <env name='MHBILL_DIR_CITY' value='14'/>
+        <env name='MHBILL_DIR_COMPLEMENT' value='3DIRECCIONa'/>
+        <env name='MHBILL_PHONE' value='59639-8203'/>
+        <env name='MHBILL_COD_STA' value='0001'/>
+        <env name='MHBILL_COD_POS' value='01'/>
+        <env name='MHBILL_EMAIL' value='developer@momotolabs.com'/>
+    </php>
 </phpunit>

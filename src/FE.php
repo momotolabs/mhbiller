@@ -4,12 +4,12 @@ namespace Momotolabs\Mhbiller;
 
 use Momotolabs\Mhbiller\Data\Concerns\DTESchemas;
 use Momotolabs\Mhbiller\DTE\DocumentBase;
+use Momotolabs\Mhbiller\DTE\TaxDocument;
 
-class Bill extends DocumentBase
+class FE extends DocumentBase implements TaxDocument
 {
-    public function generate()
+    public function generateJson(array $data) :string
     {
-        $documentationRelated = null;
         $otherDocs = null;
         $thirdSale = null;
         $extension = null;
@@ -19,9 +19,9 @@ class Bill extends DocumentBase
             'typeOperation'=>1
         ];
         return  json_encode([
-        "identificacion"=> parent::getIdentification($baseData),
-        "documentoRelacionado"=>$documentationRelated,
-        "emisor"=> $this->getEmitter(),
+        "identificacion"=> $this->getIdentification($baseData),
+        "documentoRelacionado"=>$this->documentRelated($data),
+        "emisor"=> $this->getEmitter($data),
         "receptor"=>$this->setReceiver(),
         "otrosDocumentos"=>$otherDocs,
         "ventaTercero"=>$thirdSale,
@@ -39,29 +39,7 @@ class Bill extends DocumentBase
     /**
      * @return array
      */
-    public function getEmitter(): array
-    {
-       return [
-            "nit" => "06142507221034",
-            "nrc" => "3176570",
-            "nombre" => "MOMOTOLABS, SOCIEDAD ANONIMA DE CAPITAL VARIABLE",
-            "codActividad" => "62010",
-            "descActividad" => "Programacion informatica",
-            "nombreComercial" => "Momotolabs",
-            "tipoEstablecimiento" => "02",
-            "direccion" => [
-                "departamento" => "06",
-                "municipio" => "14",
-                "complemento" => "3DIRECCIONa"
-            ],
-            "telefono" => "59639-8203",
-            "codEstableMH" => null,
-            "codEstable" => "0001",
-            "codPuntoVentaMH" => null,
-            "codPuntoVenta" => "01",
-            "correo" => "CORREO@gmail.com"
-        ];
-    }
+
 
     /**
      * @return array

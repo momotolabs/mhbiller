@@ -4,6 +4,6 @@ namespace Momotolabs\Mhbiller\DTE;
 
 interface TaxDocument
 {
-    public function generateJson() :string ;
+    public function generateJson(array $data) :string ;
 
 }

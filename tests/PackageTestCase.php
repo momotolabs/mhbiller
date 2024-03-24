@@ -7,6 +7,8 @@ use Orchestra\Testbench\TestCase;
 
 class PackageTestCase extends TestCase
 {
+    protected $loadEnvironmentVariables = true;
+
     protected function getPackageProvider($app): array
     {
         return [
