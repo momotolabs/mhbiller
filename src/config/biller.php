@@ -1,7 +1,7 @@
 <?php
 return[
     'emitter'=>[
-        'nit'=>env('MHBILL_NIT','yiuyeyreyiruyeiur'),
+        'nit'=>env('MHBILL_NIT',''),
         'nrc'=>env('MHBILL_NRC',''),
         'name'=>env('MHBILL_NAME',''),
         'cod_activity'=>env('MHBILL_COD_ACTIVITY',''),

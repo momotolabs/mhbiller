@@ -23,6 +23,9 @@ const MHBILL_PHONE='59639-8203';
 #MHBILL_MH_COD_STA
 const MHBILL_COD_STA='0001';
 #MHBILL_MH_COD_POS=''
-const MHBILL_COD_POS='01';
+const MHBILL_COD_POS='0001';
 const MHBILL_EMAIL='developer@momotolabs.com';
+const IVA=0.13;
+
+
 }

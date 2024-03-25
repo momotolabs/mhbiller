@@ -13,7 +13,7 @@ enum DTESchemas: string
     case DCLE = 'DCLE';
     case FSEE = 'FSEE';
     case CDE = 'CDE';
-    case FE = 'DocumentBase';
+    case FE = 'FE';
     case FEXE = 'FEXE';
     case CANCEL = 'CANCEL';
     case CONTINGENCY = 'CONTINGENCY';
@@ -48,7 +48,7 @@ enum DTESchemas: string
             'DCLE' => self::DCLE,
             'FSEE' => self::FSEE,
             'CDE' => self::CDE,
-            'DocumentBase' => self::FE,
+            'FE' => self::FE,
             'FEXE' => self::FEXE,
             'CANCEL' => self::CANCEL,
             'CONTINGENCY' => self::CONTINGENCY,

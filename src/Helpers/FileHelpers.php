@@ -1,11 +1,11 @@
 <?php
 
-namespace Momotolabs\Mhbiller;
+namespace Momotolabs\Mhbiller\Helpers;
 
 use Illuminate\Support\Facades\Log;
 use Momotolabs\Mhbiller\Exceptions\NotFoundFileException;
 
-class Helpers
+class FileHelpers
 {
     public function __construct(private readonly string $type)
     {
@@ -20,7 +20,7 @@ class Helpers
                 'CLE' => 'fe-cl-v1.json',
                 'CRE' => 'fe-cr-v1.json',
                 'DCLE' => 'fe-dcl-v1.json',
-                'DocumentBase' => 'fe-fc-v1.json',
+                'FE' => 'fe-fc-v1.json',
                 'FEXE' => 'fe-fex-v1.json',
                 'FSEE' => 'fe-fse-v1.json',
                 'NCE' => 'fe-nc-v3.json',
@@ -30,7 +30,7 @@ class Helpers
                 'CONTINGENCY' => 'contingencia-schema-v3.json',
             ][$this->type];
 
-            $path = __DIR__.'/resources/schemas/'.$fileName;
+            $path = __DIR__.'/../resources/schemas/'.$fileName;
             if (!file_exists($path)) {
                 throw new NotFoundFileException();
             }
@@ -47,5 +47,7 @@ class Helpers
     {
         return file_get_contents($this->getFilePath());
     }
+
+
 
 }

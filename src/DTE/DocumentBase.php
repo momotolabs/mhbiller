@@ -3,16 +3,19 @@
 namespace Momotolabs\Mhbiller\DTE;
 
 use Carbon\Carbon;
-use Momotolabs\Mhbiller\Adapters\UUID;
+use Momotolabs\Mhbiller\Adapters\NumberToLetter;
 use Momotolabs\Mhbiller\Data\Concerns\DTESchemas;
 use Momotolabs\Mhbiller\Data\Constants;
+use Momotolabs\Mhbiller\Helpers\DTEHelper;
 
 class DocumentBase
 {
     private DTESchemas $type;
+    protected $helper;
     public function __construct(string $type)
     {
         $this->type = DTESchemas::fromString($type);
+        $this->helper = new DTEHelper();
     }
 
     public function getIdentification(array $data): array
@@ -24,14 +27,19 @@ class DocumentBase
         ];
 
 
-        $code = $this->getCodeDocument($this->type);
+        $code = $this->helper->getCodeDocument($this->type);
 
         return  [
-            "version" => $this->getVersion($this->type),
+            "version" => $this->helper->getVersion($this->type),
             "ambiente" => config('environment', "00"),
             "tipoDte" => $code,
-            "numeroControl" => $this->generateControlNumber($code, 1),
-            "codigoGeneracion" => $this->generationCode(),
+            "numeroControl" => $this->helper->generateControlNumber(
+                $code,
+                1,
+                Constants::MHBILL_COD_STA,
+                Constants::MHBILL_COD_POS
+            ),
+            "codigoGeneracion" => $this->helper->generationCode(),
             "tipoModelo" => $data['typeModel'], // 1 norma, 2 contingency
             "tipoOperacion" => $data['typeOperation'], //1 normal, 2 contingency
             "fecEmi" => Carbon::now()->format('Y-m-d'),
@@ -86,46 +94,101 @@ class DocumentBase
     }
 
 
-    private function getVersion(DTESchemas $type): int
+    public function setReceiver(array $data): array
     {
-        $version = 1;
-        if($type === DTESchemas::CCFE ||
-           $type === DTESchemas::NCE  ||
-           $type === DTESchemas::NDE  ||
-           $type === DTESchemas::NRE) {
-            $version = 3;
+        return [
+            "tipoDocumento" => $data['documentType'] ?? null,
+            "numDocumento" => $data['documentNumber'] ?? null,
+            "nrc" => $data['nrc'] ?? null,
+            "nombre" => $data['name'] ?? null,
+            "codActividad" => $data['activityCode'] ?? null,
+            "descActividad" => $data['activityDesc'] ?? null,
+            "direccion" => [
+                "departamento" => $data['direction']['state'] ?? null,
+                "municipio" => $data['direction']['city'] ?? null,
+                "complemento" => $data['direction']['complement'] ?? null
+            ],
+            "telefono" => $data['phone'] ?? null,
+            "correo" => $data['email'] ?? null,
+        ];
+    }
+
+    public function setBodyBill(array$data): array
+    {
+        $items = [];
+        foreach ($data['bodyBill'] as $key => $value) {
+
+            $calcs = $this->helper->calculateTax($value['quantity'], $value['unitPrice'], $value['discount']);
+
+            $items[] = [
+                "numItem" => $key + 1,
+                "tipoItem" => $value['itemType'],
+                "numeroDocumento" => $value['documentNumber'] ?? null,
+                "cantidad" => $value['quantity'],
+                "codigo" => $value['code'],
+                "codTributo" => $value['taxCode'] ?? null,
+                "uniMedida" => $value['unitMeasure'],
+                "descripcion" => $value['description'],
+                "precioUni" => $value['unitPrice'],
+                "montoDescu" => ceil($value['discount']/0.00000001)*0.00000001,
+                "ventaNoSuj" => $value['noSuj'] ?? 0,
+                "ventaExenta" => $value['exemptSale'] ?? 0,
+                "ventaGravada" => $calcs['taxSale'],
+                "tributos" => $value['taxes'] ?? null,
+                "psv" => $value['psv'] ?? 0, //precio de venta sugerido
+                "noGravado" => $value['noTax'] ?? 0,
+                "ivaItem" => $calcs['iva'],
+            ];
+
         }
 
-        return $version;
+        return $items;
     }
 
-    private function getCodeDocument(DTESchemas $type): string
+    public function generateResume($data): array
     {
-        return $type->getCode();
+        $resume = $this->helper->resumeData($this->setBodyBill($data));
+
+        $discountNoTax = $data['descuNoSuj'] ?? 0.0;
+        $discountExempt = $data['descuExenta'] ?? 0.0;
+        $discountTax = $data['descuGravada'] ?? 0.0;
+        $total = $resume['subtotal'] + $discountExempt + $discountNoTax + $discountTax;
+        return [
+            "totalNoSuj" => $resume['noTaxSale'],
+            "totalExenta" => $resume['exemptSale'],
+            "totalGravada" => $resume['saleTax'],
+            "subTotalVentas" => $resume['subtotal'],
+            "descuNoSuj" => $discountNoTax,
+            "descuExenta" => $discountExempt,
+            "descuGravada" => $discountTax,
+            "porcentajeDescuento" => 0.0,
+            "totalDescu" => round($resume['discount'] + $discountExempt + $discountNoTax + $discountTax, 3),
+            "tributos" => null,
+            "subTotal" => round($total, 2),
+            "ivaRete1" => 0.0,
+            "reteRenta" => 0.0,
+            "montoTotalOperacion" => round($total, 2),
+            "totalNoGravado" => 0.0,
+            "totalPagar" => round($total, 2),
+            "totalLetras" => mb_strtoupper(NumberToLetter::make(($total * 100)), 'UTF-8'),
+            "totalIva" => round($resume['iva'], 2),
+            "saldoFavor" => 0.0,
+            "condicionOperacion" => $data['operationCondition'],
+            "pagos" => $this->helper->payments($data['payments'], $total),
+            "numPagoElectronico" => null
+        ];
     }
 
-    private function generateControlNumber(
-        string $code,
-        int $series,
-        string $local = '0000',
-        string $pos = '0000'
-    ): string {
-        //this code is generate follow the next definition
-        // $nomenclature is indicator of a DTE
-        // $code is a param is obtained for definitions of catalog 'CAT-02'
-        // $complement sets 8 digits, the first four are defined as the local and the next four as the pos
-        // $sequence set a 15 digit in a sequential number this number will be reset when is a new year
-
-        $nomenclature = Constants::NOMENCLATURE;
-        $complement =  $local.$pos;
-        $sequence = str_pad((string)($series + 1), 15, '0', STR_PAD_LEFT);
-
-        return $nomenclature.'-'.$code.'-'.$complement.'-'. $sequence;
-    }
-
-    private function generationCode(): string
+    public function generateExtension($data)
     {
-        return strtoupper(UUID::make());
+        return[
+            "nombEntrega" => $data['nameDelivery'] ?? null,
+            "docuEntrega" => $data['docDelivery'] ?? null,
+            "nombRecibe" => $data['nameReceiver'] ?? null,
+            "docuRecibe" => $data['nameReceiver'] ?? null,
+            "observaciones" => $data['observations'] ?? null,
+            "placaVehiculo" => $data['plate'] ?? null
+        ];
     }
 
 

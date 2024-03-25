@@ -4,17 +4,18 @@ namespace Momotolabs\Mhbiller\Data;
 
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Momotolabs\Mhbiller\FE;
-use Momotolabs\Mhbiller\Helpers;
+use Momotolabs\Mhbiller\Data\Concerns\DTESchemas;
+use Momotolabs\Mhbiller\DTE\FE;
+use Momotolabs\Mhbiller\Helpers\FileHelpers;
 use Swaggest\JsonSchema\Schema;
 
 class DTE
 {
-    public function validate(string $type)
+    public function validate(DTESchemas $type, array $data)
     {
         try {
-            $bill = json_decode((new FE())->generate());
-            $file = (new Helpers($type))->getFile();
+            $bill = json_decode((new FE($type->value))->generateJson($data));
+            $file = (new FileHelpers($type->value))->getFile();
             $schema = Schema::import(json_decode($file));
             $schema->in($bill);
             return true;
