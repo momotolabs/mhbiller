@@ -18,10 +18,16 @@ class DTE
             $file = (new FileHelpers($type->value))->getFile();
             $schema = Schema::import(json_decode($file));
             $schema->in($bill);
-            return true;
+            return [
+                'dte' => $bill,
+                'valid' => true
+            ];
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
-            return false;
+            return [
+                'error' => $exception->getMessage(),
+                'valid' => false
+            ];
         }
 
     }

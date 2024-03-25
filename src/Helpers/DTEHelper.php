@@ -130,12 +130,12 @@ final class DTEHelper
         $subTotalSale = $saleTax + $noTaxSale + $exemptSale;
 
         return [
-            'iva' => $iva,
-            'discount' => $discount,
-            'subtotal' => $subTotalSale,
-            'saleTax' => $saleTax,
-            'noTaxSale' => $noTaxSale,
-            'exemptSale' => $exemptSale,
+            'iva' => $this->valueSlack($iva,  0.01),
+            'discount' => $this->valueSlack($discount, 0.01),
+            'subtotal' => $this->valueSlack($subTotalSale,  0.01),
+            'saleTax' => $this->valueSlack($saleTax,  0.01),
+            'noTaxSale' => $this->valueSlack($noTaxSale,  0.01),
+            'exemptSale' => $this->valueSlack($exemptSale,  0.01),
         ];
     }
 
@@ -162,6 +162,12 @@ final class DTEHelper
 
         return $payments;
 
+    }
+
+
+    public function valueSlack(float $value,float $multiple)
+    {
+        return ceil($value *  $multiple)+0.01;
     }
 
 

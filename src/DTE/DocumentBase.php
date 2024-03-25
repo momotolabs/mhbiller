@@ -129,15 +129,15 @@ class DocumentBase
                 "codTributo" => $value['taxCode'] ?? null,
                 "uniMedida" => $value['unitMeasure'],
                 "descripcion" => $value['description'],
-                "precioUni" => $value['unitPrice'],
-                "montoDescu" => ceil($value['discount']/0.00000001)*0.00000001,
+                "precioUni" => $this->helper->valueSlack($value['unitPrice'],1.0E-8),
+                "montoDescu" => $this->helper->valueSlack($value['discount'],1.0E-8),
                 "ventaNoSuj" => $value['noSuj'] ?? 0,
                 "ventaExenta" => $value['exemptSale'] ?? 0,
-                "ventaGravada" => $calcs['taxSale'],
+                "ventaGravada" => $this->helper->valueSlack($calcs['taxSale'],1.0E-8),
                 "tributos" => $value['taxes'] ?? null,
                 "psv" => $value['psv'] ?? 0, //precio de venta sugerido
                 "noGravado" => $value['noTax'] ?? 0,
-                "ivaItem" => $calcs['iva'],
+                "ivaItem" => $this->helper->valueSlack($calcs['iva'],1.0E-8)
             ];
 
         }
@@ -156,7 +156,7 @@ class DocumentBase
         return [
             "totalNoSuj" => $resume['noTaxSale'],
             "totalExenta" => $resume['exemptSale'],
-            "totalGravada" => $resume['saleTax'],
+            "totalGravada" =>$resume['saleTax'],
             "subTotalVentas" => $resume['subtotal'],
             "descuNoSuj" => $discountNoTax,
             "descuExenta" => $discountExempt,
